@@ -1,13 +1,21 @@
 :root {
   --glow-colour: rgb(17, 0, 255);
   --glow-intensity: 2;
+  --text-glow: 0 0 calc(var(--glow-intensity) *  0.3rem) #fff,
+               0 0 calc(var(--glow-intensity) *  0.6rem) #fff,
+               0 0 calc(var(--glow-intensity) *    1rem) #fff,
+               0 0 calc(var(--glow-intensity) * 1.25rem)  var(--glow-colour),
+               0 0 calc(var(--glow-intensity) *  1.8rem)  var(--glow-colour),
+               0 0 calc(var(--glow-intensity) *  2.5rem)  var(--glow-colour),
+               0 0 calc(var(--glow-intensity) *  3.5rem)  var(--glow-colour),
+               0 0 calc(var(--glow-intensity) *  4.6rem)  var(--glow-colour);
 }
 
 body {
   background-color: black;
   background: radial-gradient(at top,
                             rgba(0, 0, 255, 1) 0%,
-                            rgba(0, 0, 0, 1) 100%);
+                            rgba(0, 0, 0, 1)  80%);
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   height: 100dvh;
@@ -20,6 +28,7 @@ body {
 p {
   margin: 0;
   font-weight: 100;
+  text-shadow: var(--text-glow)
 }
 
 .container {
@@ -33,13 +42,4 @@ p {
 
 #speedDisplay {
   font-size: 16rem;
-  text-shadow:
-  0 0 calc(var(--glow-intensity) *  0.3rem) #fff,
-  0 0 calc(var(--glow-intensity) *  0.6rem) #fff,
-  0 0 calc(var(--glow-intensity) *    1rem) #fff,
-  0 0 calc(var(--glow-intensity) * 1.25rem)  var(--glow-colour),
-  0 0 calc(var(--glow-intensity) *  1.8rem)  var(--glow-colour),
-  0 0 calc(var(--glow-intensity) *  2.5rem)  var(--glow-colour),
-  0 0 calc(var(--glow-intensity) *  3.5rem)  var(--glow-colour),
-  0 0 calc(var(--glow-intensity) *  4.6rem)  var(--glow-colour);
 }
