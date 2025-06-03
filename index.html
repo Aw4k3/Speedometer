@@ -9,9 +9,13 @@
   </head>
   <body id="viewport">
     <div class="container">
-      <p>km/h</p>
-      <p id="speedDisplay">130</p>
-      <p id="positionDisplay"></p>
+      <select name="unit" id="unitSelect">
+        <option value="0">km/h</option>
+        <option value="1" selected>mph</option>
+        <option value="2">m/s</option>
+      </select>
+      <p id="speedDisplay">---</p>
+      <p id="positionDisplay">Location Unavailable</p>
     </div>
   </body>
 </html>
