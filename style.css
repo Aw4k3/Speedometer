@@ -43,3 +43,9 @@ p {
 #speedDisplay {
   font-size: 16rem;
 }
+
+@media only screen and (max-width: 48rem) {
+  #speedDisplay {
+    font-size: 8rem;
+  }
+}
