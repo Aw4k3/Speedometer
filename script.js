@@ -57,7 +57,6 @@ function setAtmosphereColour(hue) {
 function success(position) {
   if (coords.length < sampleSize) coords.push([position.coords.latitude, position.coords.longitude]);
   alert.innerHTML = "Live";
-
 }
 
 /**
