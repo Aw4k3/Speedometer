@@ -1,10 +1,11 @@
 const speedDisplay    = document.getElementById("speedDisplay");
-const positionDisplay = document.getElementById("positionDisplay");
+const alert           = document.getElementById("alert");
 const viewport        = document.getElementById("viewport");
 const unitSelector    = document.getElementById("unitSelect");
 const radiusOfEarth   = 6371000; // metres
 const degToRad        = Math.PI / 180;
 const sampleSize      = 4;
+const sampleTime      = 1000;
 let speed             = 0; // for testing
 let glowHue           = 240;
 let glowIntensity     = 2;
@@ -36,7 +37,7 @@ function setAtmosphereColour(hue) {
                                       0 0 calc(${glowIntensity} *  2.5rem)  hsl(${hue}, 100%, 50%),
                                       0 0 calc(${glowIntensity} *  3.5rem)  hsl(${hue}, 100%, 50%),
                                       0 0 calc(${glowIntensity} *  4.6rem)  hsl(${hue}, 100%, 50%);`;
-  positionDisplay.style.textShadow = `0 0 calc(${glowIntensity} *  0.3rem) #fff,
+  alert.style.textShadow           = `0 0 calc(${glowIntensity} *  0.3rem) #fff,
                                       0 0 calc(${glowIntensity} *  0.6rem) #fff,
                                       0 0 calc(${glowIntensity} *    1rem) #fff,
                                       0 0 calc(${glowIntensity} * 1.25rem)  hsl(${hue}, 100%, 50%),
@@ -51,22 +52,30 @@ function setAtmosphereColour(hue) {
 
 /**
  * 
- * @param {PositionCallback} position 
+ * @param {GeolocationPosition} position 
  */
 function success(position) {
   if (coords.length < sampleSize) coords.push([position.coords.latitude, position.coords.longitude]);
-  positionDisplay.innerHTML = `${position.coords.latitude} ${position.coords.longitude}`;
+  alert.innerHTML = "Live";
 
 }
 
-function failure() {
+/**
+ * 
+ * @param {GeolocationPositionError} err Docs - https://developer.mozilla.org/en-US/docs/Web/API/GeolocationPositionError
+ */
+function failure(err) {
   speedDisplay.innerHTML = "---";
-  positionDisplay.innerHTML = "Location unavailable";
+  alert.innerHTML = "Location unavailable";
+  console.error(`ERROR(${err.code}): ${err.message}`);
   setAtmosphereColour(0);
 }
 
 if (navigator.geolocation) {
-  geolocationId = navigator.geolocation.watchPosition(success, failure, { enableHighAccuracy: true });
+  setInterval(() => {
+    navigator.geolocation.getCurrentPosition(success, failure, { enableHighAccuracy: true });
+  }, sampleTime / sampleSize);
+
   setInterval(() => {
     totalDistance = 0;
     
@@ -77,10 +86,10 @@ if (navigator.geolocation) {
       let longitude2 = coords[i + 1][1];
       
       totalDistance += radiusOfEarth * degToRad * Math.sqrt(Math.pow(Math.cos(latitude1 * degToRad ) * (longitude1 - longitude2), 2) + Math.pow(latitude1 - latitude2, 2));
+  
     }
     
-    // console.log(coords);
-    // console.log(`${totalDistance / sampleSize}`);
+    console.log(`${totalDistance} / ${sampleSize} = ${totalDistance / sampleSize}`);
 
     switch (unit) {
       case Units.KMPH:
@@ -105,6 +114,5 @@ if (navigator.geolocation) {
     
     setAtmosphereColour(240);
     coords = [];
-  }, 1000)
+  }, sampleTime)
 }
-  
