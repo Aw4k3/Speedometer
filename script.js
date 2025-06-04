@@ -79,13 +79,31 @@ if (navigator.geolocation) {
     totalDistance = 0;
     
     for (let i = 0; i < coords.length - 2; i++) {
-      let latitude1  = coords[i][0];
-      let longitude1 = coords[i][1];
-      let latitude2  = coords[i + 1][0];
-      let longitude2 = coords[i + 1][1];
-      
-      totalDistance += radiusOfEarth * degToRad * Math.sqrt(Math.pow(Math.cos(latitude1 * degToRad ) * (longitude1 - longitude2), 2) + Math.pow(latitude1 - latitude2, 2));
-  
+      // coords[lat, long]
+      let latitude1  = coords[i][0] * degToRad;
+      let longitude1 = coords[i][1] * degToRad;
+      let latitude2  = coords[i + 1][0] * degToRad;
+      let longitude2 = coords[i + 1][1] * degToRad;
+
+      // p
+      let rho1 = radiusOfEarth * Math.cos(latitude1);
+      let z1 = radiusOfEarth * Math.sin(latitude1);
+      let x1 = rho1 * Math.cos(longitude1);
+      let y1 = rho1 * Math.sin(longitude1);
+
+      // q
+      let rho2 = radiusOfEarth * Math.cos(latitude2);
+      let z2 = radiusOfEarth * Math.sin(latitude2);
+      let x2 = rho2 * Math.cos(longitude2);
+      let y2 = rho2 * Math.sin(longitude2);
+
+      // dot product
+      let dot = x1 * x2 + y1 * y2 + z1 * z2;
+      let cosTheta = dot / (radiusOfEarth ** 2);
+      let theta = Math.acos(cosTheta);
+
+      // distance in metres
+      totalDistance += radiusOfEarth * theta;
     }
     
     console.log(`${totalDistance} / ${sampleSize} = ${totalDistance / sampleSize}`);
