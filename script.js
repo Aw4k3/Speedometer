@@ -22,10 +22,12 @@ let Units              = Object.freeze({
 let unit              = 1;
 /** @type {GeolocationCoordinates} */
 let coords1           = null;
+let timestamp1        = 0;
 /** @type {GeolocationCoordinates} */
 let coords2           = null;
-let distance     = 0;
-let speed        = 0;
+let timestamp2        = 0;
+let distance          = 0;
+let speed             = 0;
 
 function setAtmosphereColour(hue) {
   if (hue < 0) hue = 0;
@@ -57,7 +59,9 @@ function setAtmosphereColour(hue) {
  */
 function success(position) {
   coords1 = coords2 || position.coords;
+  timestamp1 = timestamp2;
   coords2 = position.coords;
+  timestamp2 = position.timestamp;
   calculateSpeed();
   alertDisplay.innerHTML = "Live";
 }
@@ -106,7 +110,7 @@ function calculateSpeed() {
   distance = radiusOfEarth * theta;
 
   // Speedometer in metres per second
-  speed = distance / ((coords2.timestamp - coords1.timestamp) / 1000);
+  speed = distance / ((timestamp1 - timestamp2) / 1000);
 
   console.log(`${distance}`);
   switch (unit) {
