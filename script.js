@@ -110,7 +110,7 @@ function calculateSpeed() {
   distance = radiusOfEarth * theta;
 
   // Speedometer in metres per second
-  speed = distance / ((timestamp1 - timestamp2) / 1000);
+  speed = distance / ((timestamp2 - timestamp1) / 1000);
 
   console.log(`${distance}`);
   switch (unit) {
