@@ -104,23 +104,26 @@ function calculateSpeed() {
   // distance in metres
   distance = radiusOfEarth * theta;
 
+  // Speedometer in metres per second
+  speed = distance / ((coords2.timestamp - coords1.timestamp) / 1000);
+
   console.log(`${distance}`);
   switch (unit) {
     case Units.KMPH:
-      speedDisplay.innerHTML = Math.round(distance * 3.6);
+      speedDisplay.innerHTML = Math.round(speed * 3.6);
       break;
   
     case Units.MPH:
       // update formula from mps to mph
-      speedDisplay.innerHTML = Math.round(distance * 2.237);
+      speedDisplay.innerHTML = Math.round(speed * 2.237);
       break;
       
     case Units.MPS:
-      speedDisplay.innerHTML = Math.round(distance);
+      speedDisplay.innerHTML = Math.round(speed);
       break;
 
     default:
-      speedDisplay.innerHTML = Math.round(distance * 2.237);
+      speedDisplay.innerHTML = Math.round(speed * 2.237);
       unitSelector.value = "1";
       break;
   }
