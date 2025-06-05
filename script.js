@@ -25,6 +25,7 @@ let coords1           = null;
 /** @type {GeolocationCoordinates} */
 let coords2           = null;
 let distance     = 0;
+let speed        = 0;
 
 function setAtmosphereColour(hue) {
   if (hue < 0) hue = 0;
